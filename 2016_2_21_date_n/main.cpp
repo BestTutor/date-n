@@ -17,9 +17,12 @@ void ShowDate(int m, int d, int y);
 bool DayPlusN(int &m, int &d, int &y, int n);
 bool DayNo2Date(int n, int &d, int &m, int &y);
 
-int DaysInMonth (int m, int y);
-bool DateIsValid(int m, int d, int y);
+// function: user input validation
+bool DateIsValid(int &m, int &d, int &y);
+// function: leap year validation
 bool IsLeapYear(int y);
+// function: calculate number of days in Month
+int DaysInMonth (int m, int y);
 /*
  *
  */
@@ -36,15 +39,16 @@ int main() {
         ShowDate(m, d, y);
         cout << " + " << n << " days = ";
         
+        // DayPlusN 하고 DayNo2Date 하고 같은 function 이고 parameters 순서만 틀립니다.
         bool errorCode = DayPlusN(m, d, y, n);
-//        bool errorCode = DayNo2Date(n, d, m, y);
+        //        bool errorCode = DayNo2Date(n, d, m, y);
         if (!errorCode)
         {
             ShowDate(m, d, y);
         }
         else
         {
-            cout << endl << "ERROR: date is invalid." << endl;
+            cout << " INVALID INPUT!" << endl;
         }
         
         cout << endl << "Test again? (Type y for yes or n for no): ";
@@ -112,6 +116,7 @@ bool DayPlusN(int &m, int &d, int &y, int n) {
 
 // DayNo2Date function
 // DayPlusN 과 같은 algorithm 이며 input parameters 순서만 틀림
+// instruction 에 DayNo2Date function 이 있어서 만들긴 하였으나 DayPlusN 과 같음
 bool DayNo2Date(int n, int &d, int &m, int &y) {
     if (!DateIsValid(m, d, y)) {
         return true;
@@ -143,9 +148,11 @@ bool DayNo2Date(int n, int &d, int &m, int &y) {
 
 // DateIsValid function: validate entered month and date
 // 유저가 잘못된 date 을 입력할경우 return false
-bool DateIsValid(int m, int d, int y) {
+bool DateIsValid(int &m, int &d, int &y) {
     if (d > 0 && d <= DaysInMonth (m, y))
         return true;
+    else if (d == 0 || m == 0)
+        return false;
     else
         return false;
 }
